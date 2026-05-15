@@ -1,0 +1,3237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AV Collect — Premium Aviation Trading Cards</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1f2937;
+      --accent-blue: #38bdf8;
+      --accent-green: #4ade80;
+      --accent-purple: #a78bfa;
+      --accent-orange: #fb923c;
+      --accent-red: #f87171;
+      --text-primary: #e8eaf0;
+      --text-muted: #8892a4;
+      --navbar-height: 56px;
+      --sidebar-width: 220px;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .mono {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--navbar-height);
+      background: var(--bg-secondary);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 1000;
+    }
+
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .navbar-logo i {
+      color: var(--accent-blue);
+      font-size: 28px;
+    }
+
+    .navbar-nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .navbar-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .navbar-nav a:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .navbar-nav a.active {
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    .navbar-user {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .xp-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .xp-bar {
+      width: 120px;
+      height: 6px;
+      background: var(--bg-tertiary);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      width: 67%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+      border-radius: 3px;
+    }
+
+    .level-badge {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+      color: white;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: var(--navbar-height);
+      left: 0;
+      width: var(--sidebar-width);
+      height: calc(100vh - var(--navbar-height));
+      background: var(--bg-secondary);
+      border-right: 1px solid rgba(255,255,255,0.05);
+      padding: 16px 12px;
+      overflow-y: auto;
+      z-index: 900;
+    }
+
+    .sidebar-section {
+      margin-bottom: 24px;
+    }
+
+    .sidebar-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .sidebar-item:hover {
+      color: var(--text-primary);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .sidebar-item.active {
+      color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.1);
+    }
+
+    .sidebar-item i {
+      font-size: 18px;
+    }
+
+    .sidebar-badge {
+      margin-left: auto;
+      background: var(--accent-blue);
+      color: var(--bg-primary);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    /* Main Content */
+    .main-wrapper {
+      margin-left: var(--sidebar-width);
+      margin-top: var(--navbar-height);
+      min-height: calc(100vh - var(--navbar-height));
+      display: flex;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .right-panel {
+      width: 320px;
+      background: var(--bg-secondary);
+      border-left: 1px solid rgba(255,255,255,0.05);
+      padding: 24px;
+      overflow-y: auto;
+      height: calc(100vh - var(--navbar-height));
+      position: sticky;
+      top: var(--navbar-height);
+    }
+
+    /* Page Container */
+    .page {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Page Header */
+    .page-header {
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* Stat Cards */
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .stat-card-label {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stat-card-value {
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .stat-card-value.blue { color: var(--accent-blue); }
+    .stat-card-value.green { color: var(--accent-green); }
+    .stat-card-value.purple { color: var(--accent-purple); }
+    .stat-card-value.orange { color: var(--accent-orange); }
+
+    /* Section */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .section-link {
+      color: var(--accent-blue);
+      font-size: 13px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Card Component */
+    .cards-scroll {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: none;
+    }
+
+    .cards-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 16px;
+    }
+
+    .card-item {
+      width: 130px;
+      height: 190px;
+      border-radius: 12px;
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+
+    .card-item:hover {
+      transform: scale(1.05);
+    }
+
+    .card-item.large {
+      width: 200px;
+      height: 290px;
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #1a1f2e 0%, #0d1117 100%);
+    }
+
+    /* Rarity Backgrounds */
+    .card-item.common .card-inner {
+      background: linear-gradient(180deg, #1a1f2e 0%, #0d1117 100%);
+    }
+
+    .card-item.uncommon .card-inner {
+      background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+    }
+
+    .card-item.rare .card-inner {
+      background: linear-gradient(180deg, #1e3a5f 0%, #0d1117 100%);
+    }
+
+    .card-item.ultra-rare .card-inner {
+      background: linear-gradient(180deg, #2d1f5f 0%, #0d1117 100%);
+    }
+
+    .card-item.limited .card-inner {
+      background: linear-gradient(180deg, #1f3d2f 0%, #0d1117 100%);
+    }
+
+    /* Shimmer Effects */
+    .card-shimmer {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      pointer-events: none;
+    }
+
+    .card-item.rare .card-shimmer {
+      background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.2), transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    .card-item.ultra-rare .card-shimmer {
+      background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.3), rgba(56, 189, 248, 0.2), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    .card-item.limited .card-shimmer {
+      background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.3), transparent);
+      animation: shimmer 2.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .card-rarity-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 10;
+    }
+
+    .card-rarity-badge.common { background: #374151; color: #9ca3af; }
+    .card-rarity-badge.uncommon { background: #374151; color: #d1d5db; }
+    .card-rarity-badge.rare { background: rgba(56, 189, 248, 0.2); color: var(--accent-blue); }
+    .card-rarity-badge.ultra-rare { background: rgba(167, 139, 250, 0.2); color: var(--accent-purple); }
+    .card-rarity-badge.limited { background: rgba(74, 222, 128, 0.2); color: var(--accent-green); display: flex; align-items: center; gap: 4px; }
+
+    .card-aircraft-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      font-size: 48px;
+      opacity: 0.9;
+    }
+
+    .card-item.large .card-aircraft-icon {
+      font-size: 72px;
+    }
+
+    .card-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    }
+
+    .card-type {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-name {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+
+    .card-item.large .card-bottom {
+      padding: 16px;
+    }
+
+    .card-item.large .card-type {
+      font-size: 11px;
+    }
+
+    .card-item.large .card-name {
+      font-size: 16px;
+    }
+
+    /* Locked Card */
+    .card-item.locked .card-inner {
+      filter: grayscale(100%);
+      opacity: 0.4;
+    }
+
+    .card-lock-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.3);
+      z-index: 20;
+    }
+
+    .card-lock-overlay i {
+      font-size: 32px;
+      color: var(--text-muted);
+    }
+
+    /* Progress Bar */
+    .progress-item {
+      margin-bottom: 16px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .progress-label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .progress-value {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: var(--bg-tertiary);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+
+    .progress-fill.blue { background: var(--accent-blue); }
+    .progress-fill.green { background: var(--accent-green); }
+    .progress-fill.purple { background: var(--accent-purple); }
+    .progress-fill.orange { background: var(--accent-orange); }
+
+    /* Right Panel Components */
+    .panel-section {
+      margin-bottom: 24px;
+    }
+
+    .panel-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Upload Widget */
+    .upload-widget {
+      background: var(--bg-tertiary);
+      border: 2px dashed rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .upload-widget:hover {
+      border-color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    .upload-widget i {
+      font-size: 32px;
+      color: var(--accent-blue);
+      margin-bottom: 8px;
+    }
+
+    .upload-widget p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Radar */
+    .radar-container {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--bg-tertiary);
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .radar-grid {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 80%;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 50%;
+    }
+
+    .radar-grid::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50%;
+      height: 50%;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 50%;
+    }
+
+    .radar-sweep {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-blue), transparent);
+      transform-origin: left center;
+      animation: radarSweep 4s linear infinite;
+    }
+
+    @keyframes radarSweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .radar-blip {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      animation: blip 2s ease-out infinite;
+    }
+
+    .radar-blip:nth-child(1) { top: 25%; left: 60%; animation-delay: 0s; }
+    .radar-blip:nth-child(2) { top: 40%; left: 30%; animation-delay: 0.5s; }
+    .radar-blip:nth-child(3) { top: 65%; left: 55%; animation-delay: 1s; }
+    .radar-blip:nth-child(4) { top: 35%; left: 70%; animation-delay: 1.5s; }
+
+    @keyframes blip {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .radar-label {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    /* Leaderboard */
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .leaderboard-item:last-child {
+      border-bottom: none;
+    }
+
+    .leaderboard-rank {
+      width: 24px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .leaderboard-rank.gold { color: #fbbf24; }
+    .leaderboard-rank.silver { color: #9ca3af; }
+    .leaderboard-rank.bronze { color: #cd7f32; }
+
+    .leaderboard-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .leaderboard-item.highlight .leaderboard-avatar {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+    }
+
+    .leaderboard-name {
+      flex: 1;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .leaderboard-score {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* Activity Feed */
+    .activity-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .activity-icon.blue { background: rgba(56, 189, 248, 0.15); color: var(--accent-blue); }
+    .activity-icon.green { background: rgba(74, 222, 128, 0.15); color: var(--accent-green); }
+    .activity-icon.purple { background: rgba(167, 139, 250, 0.15); color: var(--accent-purple); }
+    .activity-icon.orange { background: rgba(251, 146, 60, 0.15); color: var(--accent-orange); }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-text {
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .activity-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Filter Bar */
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+    }
+
+    .filter-select {
+      padding: 10px 16px;
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--accent-blue);
+    }
+
+    .view-toggle {
+      display: flex;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .view-toggle button {
+      padding: 10px 14px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .view-toggle button.active {
+      background: var(--accent-blue);
+      color: var(--bg-primary);
+    }
+
+    /* Spot Page */
+    .spot-flow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .spot-step {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .spot-step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .spot-step-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent-blue);
+      color: var(--bg-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .spot-step-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .dropzone {
+      border: 2px dashed rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 48px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 20px;
+    }
+
+    .dropzone:hover {
+      border-color: var(--accent-blue);
+      background: rgba(56, 189, 248, 0.05);
+    }
+
+    .dropzone i {
+      font-size: 48px;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+    }
+
+    .dropzone-text {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .reg-input-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .reg-input {
+      flex: 1;
+      padding: 12px 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 16px;
+      text-transform: uppercase;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--accent-blue);
+      color: var(--bg-primary);
+    }
+
+    .btn-primary:hover {
+      background: #5cc8fa;
+    }
+
+    .btn-success {
+      background: var(--accent-green);
+      color: var(--bg-primary);
+    }
+
+    .btn-success:hover {
+      background: #6ee7a0;
+    }
+
+    .btn-secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background: #374151;
+    }
+
+    /* Verification Result */
+    .verification-result {
+      background: var(--bg-tertiary);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .verify-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .verify-item:last-child {
+      border-bottom: none;
+    }
+
+    .verify-label {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .verify-value {
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .limited-banner {
+      background: linear-gradient(90deg, rgba(74, 222, 128, 0.2), rgba(74, 222, 128, 0.1));
+      border: 1px solid var(--accent-green);
+      border-radius: 8px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .limited-banner i {
+      color: var(--accent-green);
+      font-size: 20px;
+    }
+
+    .limited-banner span {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .spot-ctas {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Spot Log */
+    .spot-log {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .spot-log-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 13px;
+    }
+
+    .spot-log-date {
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .spot-log-aircraft {
+      flex: 1;
+      font-weight: 500;
+    }
+
+    .spot-log-reg {
+      color: var(--text-muted);
+    }
+
+    .spot-log-unlock {
+      color: var(--accent-green);
+    }
+
+    /* Card Detail Page */
+    .card-detail-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 32px;
+    }
+
+    .card-detail-visual {
+      position: relative;
+    }
+
+    .card-detail-large {
+      width: 280px;
+      height: 400px;
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      margin: 0 auto 20px;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+    }
+
+    .card-detail-large.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      background: linear-gradient(180deg, #1a2535 0%, #0d1117 100%);
+      padding: 24px;
+    }
+
+    .card-back-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .card-back-spec {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 12px;
+    }
+
+    .card-back-spec-label {
+      color: var(--text-muted);
+    }
+
+    .flip-btn {
+      display: block;
+      margin: 0 auto;
+      padding: 10px 20px;
+      background: var(--bg-tertiary);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .flip-btn:hover {
+      border-color: var(--accent-blue);
+    }
+
+    .card-detail-info {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .card-detail-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .card-detail-title {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .card-detail-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .meta-item {
+      background: var(--bg-tertiary);
+      padding: 12px;
+      border-radius: 8px;
+    }
+
+    .meta-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .meta-value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .spec-sheet {
+      margin-bottom: 24px;
+    }
+
+    .spec-sheet-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: var(--bg-tertiary);
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+    .spec-label {
+      color: var(--text-muted);
+    }
+
+    .spot-metadata {
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .spot-metadata-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--accent-green);
+      margin-bottom: 12px;
+    }
+
+    .spot-metadata-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .spot-metadata-item {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .community-spots-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .community-spots-grid {
+      display: flex;
+      gap: 12px;
+    }
+
+    .community-spot {
+      flex: 1;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .community-spot-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .community-spot-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--bg-secondary);
+    }
+
+    .community-spot-name {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .community-spot-info {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Marketplace */
+    .marketplace-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .listing-card {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .listing-card-thumb {
+      width: 100%;
+      aspect-ratio: 130/190;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      position: relative;
+    }
+
+    .listing-card-name {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .listing-card-seller {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .listing-card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .listing-card-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent-blue);
+    }
+
+    .listing-card-condition {
+      font-size: 11px;
+      padding: 3px 8px;
+      background: var(--bg-tertiary);
+      border-radius: 4px;
+      color: var(--text-muted);
+    }
+
+    .listing-card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .listing-card-actions .btn {
+      flex: 1;
+      padding: 8px;
+      font-size: 12px;
+      justify-content: center;
+    }
+
+    /* Trade Offers */
+    .trade-offer {
+      background: var(--bg-tertiary);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .trade-offer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .trade-offer-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .trade-offer-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .trade-offer-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .trade-offer-time {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .trade-offer-swap {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .trade-offer-card {
+      flex: 1;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .trade-offer-card-name {
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 6px;
+    }
+
+    .trade-offer-arrow {
+      color: var(--accent-blue);
+      font-size: 20px;
+    }
+
+    .trade-offer-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .trade-offer-actions .btn {
+      flex: 1;
+      padding: 8px;
+      font-size: 12px;
+      justify-content: center;
+    }
+
+    /* Community Page */
+    .community-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-secondary);
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 24px;
+      width: fit-content;
+    }
+
+    .community-tab {
+      padding: 10px 20px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .community-tab.active {
+      background: var(--accent-blue);
+      color: var(--bg-primary);
+    }
+
+    .feed-post {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .feed-post-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .feed-post-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    .feed-post-user {
+      flex: 1;
+    }
+
+    .feed-post-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .feed-post-time {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .feed-post-content {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    .feed-post-media {
+      display: flex;
+      gap: 12px;
+    }
+
+    .feed-post-thumb {
+      width: 80px;
+      height: 80px;
+      background: var(--bg-tertiary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    /* Groups */
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .group-card {
+      background: var(--bg-secondary);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .group-card.member {
+      border-color: var(--accent-blue);
+    }
+
+    .group-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .group-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .group-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .group-members {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .group-activity {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .member-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent-blue);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Leaderboard Table */
+    .leaderboard-table {
+      width: 100%;
+    }
+
+    .leaderboard-row {
+      display: grid;
+      grid-template-columns: 60px 1fr 100px 100px 100px;
+      gap: 16px;
+      padding: 12px 16px;
+      background: var(--bg-secondary);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .leaderboard-row.header {
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .leaderboard-row.highlight {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid var(--accent-blue);
+    }
+
+    .leaderboard-row.gap {
+      background: transparent;
+      justify-content: center;
+      display: flex;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .leaderboard-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .leaderboard-user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      background: var(--bg-secondary);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: toastIn 0.3s ease;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .toast.success {
+      border-color: var(--accent-green);
+    }
+
+    .toast.success i {
+      color: var(--accent-green);
+    }
+
+    .toast.info {
+      border-color: var(--accent-blue);
+    }
+
+    .toast.info i {
+      color: var(--accent-blue);
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes toastOut {
+      from {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    /* Sales Ticker */
+    .sales-ticker {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .sale-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 13px;
+    }
+
+    .sale-item i {
+      color: var(--accent-green);
+    }
+
+    .sale-card-name {
+      flex: 1;
+    }
+
+    .sale-price {
+      color: var(--accent-green);
+      font-weight: 600;
+    }
+
+    .sale-time {
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+
+    /* Collection Summary */
+    .collection-stat {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .collection-stat-label {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .collection-stat-value {
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* Recently Viewed */
+    .recent-cards {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .recent-card-mini {
+      width: 50px;
+      height: 70px;
+      background: var(--bg-tertiary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .recent-card-mini:hover {
+      transform: scale(1.1);
+    }
+
+    /* Right panel content area */
+    .right-panel-content {
+      display: none;
+    }
+
+    .right-panel-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="#" class="navbar-logo">
+      <i class="ti ti-plane"></i>
+      AV Collect
+    </a>
+    <div class="navbar-nav">
+      <a href="#" class="active" data-page="dashboard">Dashboard</a>
+      <a href="#" data-page="binder">Binder</a>
+      <a href="#" data-page="spot">Spot</a>
+      <a href="#" data-page="marketplace">Marketplace</a>
+      <a href="#" data-page="community">Community</a>
+    </div>
+    <div class="navbar-user">
+      <div class="xp-bar-container">
+        <div class="xp-bar">
+          <div class="xp-bar-fill"></div>
+        </div>
+        <span class="mono" style="font-size: 12px; color: var(--text-muted);">4,720 XP</span>
+      </div>
+      <div class="level-badge">LVL <span class="mono">14</span></div>
+      <div class="user-avatar">J</div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Collection</div>
+      <a class="sidebar-item active" data-page="dashboard">
+        <i class="ti ti-dashboard"></i>
+        Dashboard
+      </a>
+      <a class="sidebar-item" data-page="binder">
+        <i class="ti ti-cards"></i>
+        My Binder
+      </a>
+      <a class="sidebar-item" data-page="limited">
+        <i class="ti ti-sparkles"></i>
+        Limited Editions
+      </a>
+      <a class="sidebar-item" data-page="scan">
+        <i class="ti ti-scan"></i>
+        Scan a Card
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Spotting</div>
+      <a class="sidebar-item" data-page="spot">
+        <i class="ti ti-camera"></i>
+        Spot a Plane
+      </a>
+      <a class="sidebar-item" data-page="spotlog">
+        <i class="ti ti-list"></i>
+        Spotting Log
+      </a>
+      <a class="sidebar-item" data-page="group">
+        <i class="ti ti-users"></i>
+        LHR Spotters Group
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Trade</div>
+      <a class="sidebar-item" data-page="marketplace">
+        <i class="ti ti-shopping-cart"></i>
+        Marketplace
+      </a>
+      <a class="sidebar-item" data-page="trades">
+        <i class="ti ti-arrows-exchange"></i>
+        Trade Offers
+        <span class="sidebar-badge">2</span>
+      </a>
+      <a class="sidebar-item" data-page="wanted">
+        <i class="ti ti-heart"></i>
+        Wanted List
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Wrapper -->
+  <div class="main-wrapper">
+    <main class="main-content">
+      <!-- Dashboard Page -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <h1 class="page-title">Welcome back, Jamie</h1>
+          <p class="page-subtitle">Your collection is growing nicely. 4 more cards until Level 15!</p>
+        </div>
+
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="stat-card-label"><i class="ti ti-cards"></i> Cards Owned</div>
+            <div class="stat-card-value blue mono">147</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label"><i class="ti ti-plane"></i> Planes Spotted</div>
+            <div class="stat-card-value green mono">38</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label"><i class="ti ti-folder"></i> Sets Complete</div>
+            <div class="stat-card-value purple mono">4</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label"><i class="ti ti-trophy"></i> Global Rank</div>
+            <div class="stat-card-value orange mono">#312</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <h3 class="section-title">Recent Cards</h3>
+            <a href="#" class="section-link" data-page="binder">View All <i class="ti ti-chevron-right"></i></a>
+          </div>
+          <div class="cards-scroll" id="recent-cards">
+            <!-- Cards generated by JS -->
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <h3 class="section-title">Set Progress</h3>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">Modern Widebodies</span>
+              <span class="progress-value mono">8/10</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill blue" style="width: 80%"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">British Airways Fleet</span>
+              <span class="progress-value mono">12/15</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill green" style="width: 80%"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">Aviation Legends</span>
+              <span class="progress-value mono">5/8</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill purple" style="width: 62.5%"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">Single Aisle Collection</span>
+              <span class="progress-value mono">14/20</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill orange" style="width: 70%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Binder Page -->
+      <div class="page" id="page-binder">
+        <div class="page-header">
+          <h1 class="page-title">My Binder</h1>
+          <p class="page-subtitle">147 cards collected • 23 locked</p>
+        </div>
+
+        <div class="filter-bar">
+          <input type="text" class="search-input" placeholder="Search cards...">
+          <select class="filter-select">
+            <option>All Aircraft Types</option>
+            <option>Widebody</option>
+            <option>Narrowbody</option>
+            <option>Regional</option>
+            <option>Historical</option>
+          </select>
+          <select class="filter-select">
+            <option>All Manufacturers</option>
+            <option>Boeing</option>
+            <option>Airbus</option>
+            <option>Other</option>
+          </select>
+          <select class="filter-select">
+            <option>All Airlines</option>
+            <option>British Airways</option>
+            <option>Emirates</option>
+            <option>Lufthansa</option>
+          </select>
+          <select class="filter-select">
+            <option>All Rarities</option>
+            <option>Common</option>
+            <option>Uncommon</option>
+            <option>Rare</option>
+            <option>Ultra Rare</option>
+            <option>Limited Edition</option>
+          </select>
+          <div class="view-toggle">
+            <button class="active"><i class="ti ti-grid-dots"></i></button>
+            <button><i class="ti ti-list"></i></button>
+          </div>
+        </div>
+
+        <div class="cards-grid" id="binder-cards">
+          <!-- Cards generated by JS -->
+        </div>
+      </div>
+
+      <!-- Spot Page -->
+      <div class="page" id="page-spot">
+        <div class="page-header">
+          <h1 class="page-title">Spot a Plane</h1>
+          <p class="page-subtitle">Upload a photo or enter registration to verify your spot</p>
+        </div>
+
+        <div class="spot-flow">
+          <div class="spot-step">
+            <div class="spot-step-header">
+              <div class="spot-step-number">1</div>
+              <div class="spot-step-title">Upload & Identify</div>
+            </div>
+            <div class="dropzone" id="dropzone">
+              <i class="ti ti-cloud-upload"></i>
+              <p class="dropzone-text">Drag and drop your photo here<br>or click to browse</p>
+            </div>
+            <div class="reg-input-group">
+              <input type="text" class="reg-input" placeholder="G-BOAC" maxlength="7">
+              <button class="btn btn-primary" id="verify-btn">
+                <i class="ti ti-search"></i> Verify
+              </button>
+            </div>
+          </div>
+
+          <div class="spot-step">
+            <div class="spot-step-header">
+              <div class="spot-step-number">2</div>
+              <div class="spot-step-title">Verification Result</div>
+            </div>
+            <div class="verification-result">
+              <div class="verify-item">
+                <span class="verify-label">Aircraft Type</span>
+                <span class="verify-value">Boeing 787-9 Dreamliner</span>
+              </div>
+              <div class="verify-item">
+                <span class="verify-label">Registration</span>
+                <span class="verify-value mono">G-ZBKR</span>
+              </div>
+              <div class="verify-item">
+                <span class="verify-label">Flight</span>
+                <span class="verify-value mono">BA189</span>
+              </div>
+              <div class="verify-item">
+                <span class="verify-label">Route</span>
+                <span class="verify-value">LHR → SIN</span>
+              </div>
+              <div class="verify-item">
+                <span class="verify-label">Airline</span>
+                <span class="verify-value">British Airways</span>
+              </div>
+              <div class="verify-item">
+                <span class="verify-label">Aircraft Age</span>
+                <span class="verify-value mono">4.2 years</span>
+              </div>
+            </div>
+            <div class="limited-banner">
+              <i class="ti ti-crown"></i>
+              <span>Limited Edition Unlocked!</span>
+            </div>
+            <div class="spot-ctas">
+              <button class="btn btn-success" id="add-binder-btn">
+                <i class="ti ti-plus"></i> Add to Digital Binder
+              </button>
+              <button class="btn btn-secondary">
+                <i class="ti ti-credit-card"></i> Order Physical Card
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card Detail Page -->
+      <div class="page" id="page-card-detail">
+        <div class="page-header">
+          <a href="#" class="section-link" data-page="binder" style="margin-bottom: 8px; display: inline-flex;">
+            <i class="ti ti-chevron-left"></i> Back to Binder
+          </a>
+          <h1 class="page-title">Boeing 787-9 Dreamliner</h1>
+          <p class="page-subtitle">Limited Edition • Unlocked at EGLL</p>
+        </div>
+
+        <div class="card-detail-layout">
+          <div class="card-detail-visual">
+            <div class="card-detail-large limited" id="detail-card">
+              <div class="card-face card-front">
+                <div class="card-inner" style="background: linear-gradient(180deg, #1f3d2f 0%, #0d1117 100%);">
+                  <div class="card-shimmer" style="animation: shimmer 2.5s infinite; background: linear-gradient(90deg, transparent, rgba(74, 222, 128, 0.3), transparent);"></div>
+                  <span class="card-rarity-badge limited"><i class="ti ti-crown" style="font-size: 10px;"></i> LIMITED</span>
+                  <div class="card-aircraft-icon" style="font-size: 72px;">✈️</div>
+                  <div class="card-bottom" style="padding: 20px;">
+                    <div class="card-type mono">WIDEBODY • BOEING</div>
+                    <div class="card-name" style="font-size: 18px;">787-9 Dreamliner</div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-face card-back">
+                <div class="card-back-title">787-9 Dreamliner</div>
+                <div class="card-back-spec">
+                  <span class="card-back-spec-label">Manufacturer</span>
+                  <span>Boeing</span>
+                </div>
+                <div class="card-back-spec">
+                  <span class="card-back-spec-label">Engines</span>
+                  <span>GEnx-1B / Trent 1000</span>
+                </div>
+                <div class="card-back-spec">
+                  <span class="card-back-spec-label">Range</span>
+                  <span class="mono">7,530 nm</span>
+                </div>
+                <div class="card-back-spec">
+                  <span class="card-back-spec-label">Cruise Altitude</span>
+                  <span class="mono">43,000 ft</span>
+                </div>
+                <div class="card-back-spec">
+                  <span class="card-back-spec-label">Cruise Speed</span>
+                  <span class="mono">Mach 0.85</span>
+                </div>
+                <div class="card-back-spec">
+                  <span class="card-back-spec-label">First Flight</span>
+                  <span>Dec 15, 2009</span>
+                </div>
+                <div class="card-back-spec">
+                  <span class="card-back-spec-label">Operators</span>
+                  <span>60+</span>
+                </div>
+              </div>
+            </div>
+            <button class="flip-btn" id="flip-btn">
+              <i class="ti ti-rotate"></i> Flip Card
+            </button>
+          </div>
+
+          <div class="card-detail-info">
+            <div class="card-detail-header">
+              <span class="card-rarity-badge limited" style="font-size: 11px; padding: 5px 12px;"><i class="ti ti-crown" style="font-size: 12px;"></i> LIMITED EDITION</span>
+            </div>
+
+            <div class="card-detail-meta">
+              <div class="meta-item">
+                <div class="meta-label">Set</div>
+                <div class="meta-value">Modern Widebodies</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Condition</div>
+                <div class="meta-value">Mint</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Scan Date</div>
+                <div class="meta-value mono">14 May 2025</div>
+              </div>
+            </div>
+
+            <div class="spot-metadata">
+              <div class="spot-metadata-title">
+                <i class="ti ti-camera"></i> Your Spot
+              </div>
+              <div class="spot-metadata-grid">
+                <div class="spot-metadata-item">
+                  <span class="verify-label">Location</span>
+                  <span class="verify-value">EGLL</span>
+                </div>
+                <div class="spot-metadata-item">
+                  <span class="verify-label">Date</span>
+                  <span class="verify-value mono">14 May 2025</span>
+                </div>
+                <div class="spot-metadata-item">
+                  <span class="verify-label">Time</span>
+                  <span class="verify-value mono">09:34</span>
+                </div>
+                <div class="spot-metadata-item">
+                  <span class="verify-label">Flight</span>
+                  <span class="verify-value mono">BA189</span>
+                </div>
+                <div class="spot-metadata-item">
+                  <span class="verify-label">Route</span>
+                  <span class="verify-value">LHR → SIN</span>
+                </div>
+                <div class="spot-metadata-item">
+                  <span class="verify-label">Aircraft Age</span>
+                  <span class="verify-value mono">4.2 years</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="spec-sheet">
+              <div class="spec-sheet-title">Full Specifications</div>
+              <div class="spec-grid">
+                <div class="spec-item">
+                  <span class="spec-label">Manufacturer</span>
+                  <span>Boeing</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Type</span>
+                  <span>Widebody</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Engines</span>
+                  <span>GEnx-1B / Trent 1000</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Range</span>
+                  <span class="mono">7,530 nm</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Cruise Alt.</span>
+                  <span class="mono">43,000 ft</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Cruise Speed</span>
+                  <span class="mono">Mach 0.85</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">First Flight</span>
+                  <span>Dec 15, 2009</span>
+                </div>
+                <div class="spec-item">
+                  <span class="spec-label">Operators</span>
+                  <span class="mono">60+</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="community-spots-title">Community Spots</div>
+            <div class="community-spots-grid">
+              <div class="community-spot">
+                <div class="community-spot-user">
+                  <div class="community-spot-avatar"></div>
+                  <span class="community-spot-name">AviatorMike</span>
+                </div>
+                <div class="community-spot-info">KJFK • 3 days ago</div>
+              </div>
+              <div class="community-spot">
+                <div class="community-spot-user">
+                  <div class="community-spot-avatar"></div>
+                  <span class="community-spot-name">SpotterSarah</span>
+                </div>
+                <div class="community-spot-info">EHAM • 1 week ago</div>
+              </div>
+              <div class="community-spot">
+                <div class="community-spot-user">
+                  <div class="community-spot-avatar"></div>
+                  <span class="community-spot-name">PlaneFan99</span>
+                </div>
+                <div class="community-spot-info">WSSS • 2 weeks ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Marketplace Page -->
+      <div class="page" id="page-marketplace">
+        <div class="page-header">
+          <h1 class="page-title">Marketplace</h1>
+          <p class="page-subtitle">Browse and trade cards with collectors worldwide</p>
+        </div>
+
+        <div class="filter-bar">
+          <input type="text" class="search-input" placeholder="Search listings...">
+          <select class="filter-select">
+            <option>All Rarities</option>
+            <option>Common</option>
+            <option>Uncommon</option>
+            <option>Rare</option>
+            <option>Ultra Rare</option>
+            <option>Limited Edition</option>
+          </select>
+          <select class="filter-select">
+            <option>All Aircraft</option>
+            <option>Boeing</option>
+            <option>Airbus</option>
+          </select>
+          <select class="filter-select">
+            <option>Any Price</option>
+            <option>Under 500 coins</option>
+            <option>500-1000 coins</option>
+            <option>1000+ coins</option>
+          </select>
+          <select class="filter-select">
+            <option>Any Condition</option>
+            <option>Mint</option>
+            <option>Near Mint</option>
+            <option>Good</option>
+          </select>
+        </div>
+
+        <div class="marketplace-grid" id="marketplace-listings">
+          <!-- Listings generated by JS -->
+        </div>
+      </div>
+
+      <!-- Community Page -->
+      <div class="page" id="page-community">
+        <div class="page-header">
+          <h1 class="page-title">Community</h1>
+          <p class="page-subtitle">Connect with aviation enthusiasts worldwide</p>
+        </div>
+
+        <div class="community-tabs">
+          <button class="community-tab active" data-tab="feed">Feed</button>
+          <button class="community-tab" data-tab="groups">Groups</button>
+          <button class="community-tab" data-tab="leaderboard">Leaderboard</button>
+        </div>
+
+        <div class="community-content">
+          <!-- Feed Tab -->
+          <div class="tab-content active" id="tab-feed">
+            <div class="feed-post">
+              <div class="feed-post-header">
+                <div class="feed-post-avatar">M</div>
+                <div class="feed-post-user">
+                  <div class="feed-post-name">AviatorMike</div>
+                  <div class="feed-post-time">2 hours ago</div>
+                </div>
+              </div>
+              <div class="feed-post-content">
+                Just spotted my first A380 at Heathrow! 🎉 Added the Emirates livery card to my collection.
+              </div>
+              <div class="feed-post-media">
+                <div class="feed-post-thumb">✈️</div>
+              </div>
+            </div>
+
+            <div class="feed-post">
+              <div class="feed-post-header">
+                <div class="feed-post-avatar">S</div>
+                <div class="feed-post-user">
+                  <div class="feed-post-name">SpotterSarah</div>
+                  <div class="feed-post-time">4 hours ago</div>
+                </div>
+              </div>
+              <div class="feed-post-content">
+                Completed the Aviation Legends set! That Concorde card was the last piece I needed. 🏆
+              </div>
+              <div class="feed-post-media">
+                <div class="feed-post-thumb" style="background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));">🏆</div>
+              </div>
+            </div>
+
+            <div class="feed-post">
+              <div class="feed-post-header">
+                <div class="feed-post-avatar">T</div>
+                <div class="feed-post-user">
+                  <div class="feed-post-name">TurboProp42</div>
+                  <div class="feed-post-time">6 hours ago</div>
+                </div>
+              </div>
+              <div class="feed-post-content">
+                Earned the "Century Spotter" badge today! 100 verified spots and counting.
+              </div>
+              <div class="feed-post-media">
+                <div class="feed-post-thumb" style="background: linear-gradient(135deg, var(--accent-orange), var(--accent-red));">🎖️</div>
+              </div>
+            </div>
+
+            <div class="feed-post">
+              <div class="feed-post-header">
+                <div class="feed-post-avatar">J</div>
+                <div class="feed-post-user">
+                  <div class="feed-post-name">JetSetterJen</div>
+                  <div class="feed-post-time">Yesterday</div>
+                </div>
+              </div>
+              <div class="feed-post-content">
+                Trade offer accepted! Swapped my duplicate 737 MAX for a beautiful 777-300ER. Fair trade!
+              </div>
+            </div>
+          </div>
+
+          <!-- Groups Tab -->
+          <div class="tab-content" id="tab-groups" style="display: none;">
+            <div class="groups-grid">
+              <div class="group-card member">
+                <div class="group-header">
+                  <div class="group-icon">🛬</div>
+                  <div>
+                    <div class="group-name">LHR Spotters</div>
+                    <div class="group-members mono">1,247 members</div>
+                  </div>
+                </div>
+                <div class="group-activity">Last active: 5 minutes ago</div>
+                <span class="member-badge"><i class="ti ti-check"></i> Member</span>
+              </div>
+
+              <div class="group-card">
+                <div class="group-header">
+                  <div class="group-icon">🛫</div>
+                  <div>
+                    <div class="group-name">MAN Spotters</div>
+                    <div class="group-members mono">856 members</div>
+                  </div>
+                </div>
+                <div class="group-activity">Last active: 1 hour ago</div>
+                <button class="btn btn-primary" style="padding: 8px 16px; font-size: 12px;">Join Group</button>
+              </div>
+
+              <div class="group-card">
+                <div class="group-header">
+                  <div class="group-icon">🏴󠁧󠁢󠁳󠁣󠁴󠁿</div>
+                  <div>
+                    <div class="group-name">EDI Spotters</div>
+                    <div class="group-members mono">412 members</div>
+                  </div>
+                </div>
+                <div class="group-activity">Last active: 3 hours ago</div>
+                <button class="btn btn-primary" style="padding: 8px 16px; font-size: 12px;">Join Group</button>
+              </div>
+
+              <div class="group-card">
+                <div class="group-header">
+                  <div class="group-icon">🏙️</div>
+                  <div>
+                    <div class="group-name">BHX Spotters</div>
+                    <div class="group-members mono">328 members</div>
+                  </div>
+                </div>
+                <div class="group-activity">Last active: 5 hours ago</div>
+                <button class="btn btn-primary" style="padding: 8px 16px; font-size: 12px;">Join Group</button>
+              </div>
+
+              <div class="group-card">
+                <div class="group-header">
+                  <div class="group-icon">🏴󠁧󠁢󠁳󠁣󠁴󠁿</div>
+                  <div>
+                    <div class="group-name">GLA Spotters</div>
+                    <div class="group-members mono">289 members</div>
+                  </div>
+                </div>
+                <div class="group-activity">Last active: Yesterday</div>
+                <button class="btn btn-primary" style="padding: 8px 16px; font-size: 12px;">Join Group</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Leaderboard Tab -->
+          <div class="tab-content" id="tab-leaderboard" style="display: none;">
+            <div class="leaderboard-table">
+              <div class="leaderboard-row header">
+                <div>Rank</div>
+                <div>User</div>
+                <div>Spots</div>
+                <div>Cards</div>
+                <div>Sets</div>
+              </div>
+              <div class="leaderboard-row">
+                <div class="mono" style="color: #fbbf24; font-weight: 700;">1</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar">A</div>
+                  <span>AeroKing</span>
+                </div>
+                <div class="mono">892</div>
+                <div class="mono">547</div>
+                <div class="mono">12</div>
+              </div>
+              <div class="leaderboard-row">
+                <div class="mono" style="color: #9ca3af; font-weight: 700;">2</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar">S</div>
+                  <span>SkyWatcher</span>
+                </div>
+                <div class="mono">756</div>
+                <div class="mono">489</div>
+                <div class="mono">11</div>
+              </div>
+              <div class="leaderboard-row">
+                <div class="mono" style="color: #cd7f32; font-weight: 700;">3</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar">P</div>
+                  <span>PlaneHunter</span>
+                </div>
+                <div class="mono">698</div>
+                <div class="mono">412</div>
+                <div class="mono">10</div>
+              </div>
+              <div class="leaderboard-row">
+                <div class="mono">4</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar">J</div>
+                  <span>JetStream</span>
+                </div>
+                <div class="mono">612</div>
+                <div class="mono">378</div>
+                <div class="mono">9</div>
+              </div>
+              <div class="leaderboard-row">
+                <div class="mono">5</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar">W</div>
+                  <span>WingSpan</span>
+                </div>
+                <div class="mono">589</div>
+                <div class="mono">356</div>
+                <div class="mono">9</div>
+              </div>
+              <div class="leaderboard-row">
+                <div class="mono">6</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar">C</div>
+                  <span>CloudNine</span>
+                </div>
+                <div class="mono">534</div>
+                <div class="mono">312</div>
+                <div class="mono">8</div>
+              </div>
+              <div class="leaderboard-row">
+                <div class="mono">7</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar">R</div>
+                  <span>RunwayRick</span>
+                </div>
+                <div class="mono">487</div>
+                <div class="mono">289</div>
+                <div class="mono">7</div>
+              </div>
+              <div class="leaderboard-row">
+                <div class="mono">8</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar">T</div>
+                  <span>TailwindTom</span>
+                </div>
+                <div class="mono">456</div>
+                <div class="mono">267</div>
+                <div class="mono">7</div>
+              </div>
+              <div class="leaderboard-row">
+                <div class="mono">9</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar">A</div>
+                  <span>AltitudeAce</span>
+                </div>
+                <div class="mono">423</div>
+                <div class="mono">245</div>
+                <div class="mono">6</div>
+              </div>
+              <div class="leaderboard-row">
+                <div class="mono">10</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar">F</div>
+                  <span>FlightPath</span>
+                </div>
+                <div class="mono">398</div>
+                <div class="mono">223</div>
+                <div class="mono">6</div>
+              </div>
+              <div class="leaderboard-row gap">• • •</div>
+              <div class="leaderboard-row highlight">
+                <div class="mono" style="color: var(--accent-blue); font-weight: 700;">312</div>
+                <div class="leaderboard-user">
+                  <div class="leaderboard-user-avatar" style="background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));">J</div>
+                  <span style="color: var(--accent-blue);">Jamie (You)</span>
+                </div>
+                <div class="mono">38</div>
+                <div class="mono">147</div>
+                <div class="mono">4</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wanted List Page -->
+      <div class="page" id="page-wanted">
+        <div class="page-header">
+          <h1 class="page-title">Wanted List</h1>
+          <p class="page-subtitle">Cards you're looking for</p>
+        </div>
+        <div class="empty-state">
+          <i class="ti ti-heart-plus"></i>
+          <p>Your wanted list is empty.<br>Browse the binder and add cards you're looking for!</p>
+          <button class="btn btn-primary" onclick="navigateTo('binder')">
+            <i class="ti ti-cards"></i> Browse Binder
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Panel -->
+    <aside class="right-panel">
+      <!-- Dashboard Right Panel -->
+      <div class="right-panel-content active" id="right-dashboard">
+        <div class="panel-section">
+          <div class="panel-title">Spot a Plane</div>
+          <div class="upload-widget" onclick="navigateTo('spot')">
+            <i class="ti ti-camera"></i>
+            <p>Upload a photo to verify your spot</p>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-title">Nearby Traffic — EGLL</div>
+          <div class="radar-container">
+            <div class="radar-grid"></div>
+            <div class="radar-sweep"></div>
+            <div class="radar-blip"></div>
+            <div class="radar-blip"></div>
+            <div class="radar-blip"></div>
+            <div class="radar-blip"></div>
+            <div class="radar-label mono">EGLL</div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-title">LHR Spotters</div>
+          <div class="leaderboard-item">
+            <div class="leaderboard-rank gold mono">1</div>
+            <div class="leaderboard-avatar">D</div>
+            <div class="leaderboard-name">DeltaFan</div>
+            <div class="leaderboard-score mono">89</div>
+          </div>
+          <div class="leaderboard-item">
+            <div class="leaderboard-rank silver mono">2</div>
+            <div class="leaderboard-avatar">A</div>
+            <div class="leaderboard-name">AirBusAndy</div>
+            <div class="leaderboard-score mono">76</div>
+          </div>
+          <div class="leaderboard-item">
+            <div class="leaderboard-rank bronze mono">3</div>
+            <div class="leaderboard-avatar">S</div>
+            <div class="leaderboard-name">SkyGazer</div>
+            <div class="leaderboard-score mono">64</div>
+          </div>
+          <div class="leaderboard-item highlight">
+            <div class="leaderboard-rank mono">4</div>
+            <div class="leaderboard-avatar">J</div>
+            <div class="leaderboard-name">Jamie (You)</div>
+            <div class="leaderboard-score mono">38</div>
+          </div>
+          <div class="leaderboard-item">
+            <div class="leaderboard-rank mono">5</div>
+            <div class="leaderboard-avatar">R</div>
+            <div class="leaderboard-name">RunwayRoy</div>
+            <div class="leaderboard-score mono">31</div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-title">Recent Activity</div>
+          <div class="activity-item">
+            <div class="activity-icon green"><i class="ti ti-check"></i></div>
+            <div class="activity-content">
+              <div class="activity-text">Spot verified: <strong>787-9</strong> at EGLL</div>
+              <div class="activity-time">2 hours ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon blue"><i class="ti ti-scan"></i></div>
+            <div class="activity-content">
+              <div class="activity-text">Card scanned: <strong>A350-900</strong></div>
+              <div class="activity-time">Yesterday</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon purple"><i class="ti ti-award"></i></div>
+            <div class="activity-content">
+              <div class="activity-text">Badge earned: <strong>Early Bird</strong></div>
+              <div class="activity-time">2 days ago</div>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-icon orange"><i class="ti ti-arrows-exchange"></i></div>
+            <div class="activity-content">
+              <div class="activity-text">Trade offer received from <strong>AviatorMike</strong></div>
+              <div class="activity-time">3 days ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Binder Right Panel -->
+      <div class="right-panel-content" id="right-binder">
+        <div class="panel-section">
+          <div class="panel-title">Collection Summary</div>
+          <div class="collection-stat">
+            <span class="collection-stat-label">Total Cards</span>
+            <span class="collection-stat-value mono">147 / 170</span>
+          </div>
+          <div class="collection-stat">
+            <span class="collection-stat-label">Common</span>
+            <span class="collection-stat-value mono">62</span>
+          </div>
+          <div class="collection-stat">
+            <span class="collection-stat-label">Uncommon</span>
+            <span class="collection-stat-value mono">48</span>
+          </div>
+          <div class="collection-stat">
+            <span class="collection-stat-label">Rare</span>
+            <span class="collection-stat-value mono">24</span>
+          </div>
+          <div class="collection-stat">
+            <span class="collection-stat-label">Ultra Rare</span>
+            <span class="collection-stat-value mono">9</span>
+          </div>
+          <div class="collection-stat">
+            <span class="collection-stat-label">Limited Edition</span>
+            <span class="collection-stat-value mono">4</span>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-title">Recently Viewed</div>
+          <div class="recent-cards">
+            <div class="recent-card-mini" onclick="navigateTo('card-detail')">✈️</div>
+            <div class="recent-card-mini">✈️</div>
+            <div class="recent-card-mini">✈️</div>
+            <div class="recent-card-mini">✈️</div>
+            <div class="recent-card-mini">✈️</div>
+            <div class="recent-card-mini">✈️</div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-title">Active Checklists</div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">Modern Widebodies</span>
+              <span class="progress-value mono">8/10</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill blue" style="width: 80%"></div>
+            </div>
+          </div>
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">British Airways</span>
+              <span class="progress-value mono">12/15</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill green" style="width: 80%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spot Right Panel -->
+      <div class="right-panel-content" id="right-spot">
+        <div class="panel-section">
+          <div class="panel-title">Recent Spots</div>
+          <div class="spot-log">
+            <div class="spot-log-item">
+              <span class="spot-log-date mono">14 May</span>
+              <span class="spot-log-aircraft">787-9</span>
+              <span class="spot-log-reg mono">G-ZBKR</span>
+              <span class="spot-log-unlock"><i class="ti ti-sparkles"></i></span>
+            </div>
+            <div class="spot-log-item">
+              <span class="spot-log-date mono">12 May</span>
+              <span class="spot-log-aircraft">A350-900</span>
+              <span class="spot-log-reg mono">G-XWBA</span>
+              <span class="spot-log-unlock"></span>
+            </div>
+            <div class="spot-log-item">
+              <span class="spot-log-date mono">10 May</span>
+              <span class="spot-log-aircraft">777-300ER</span>
+              <span class="spot-log-reg mono">G-STBH</span>
+              <span class="spot-log-unlock"></span>
+            </div>
+            <div class="spot-log-item">
+              <span class="spot-log-date mono">8 May</span>
+              <span class="spot-log-aircraft">A380-800</span>
+              <span class="spot-log-reg mono">A6-EUV</span>
+              <span class="spot-log-unlock"><i class="ti ti-sparkles"></i></span>
+            </div>
+            <div class="spot-log-item">
+              <span class="spot-log-date mono">5 May</span>
+              <span class="spot-log-aircraft">A320neo</span>
+              <span class="spot-log-reg mono">G-TTNA</span>
+              <span class="spot-log-unlock"></span>
+            </div>
+            <div class="spot-log-item">
+              <span class="spot-log-date mono">3 May</span>
+              <span class="spot-log-aircraft">737-800</span>
+              <span class="spot-log-reg mono">EI-FTZ</span>
+              <span class="spot-log-unlock"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-title">Spot Locations</div>
+          <div style="background: var(--bg-tertiary); border-radius: 12px; height: 200px; display: flex; align-items: center; justify-content: center; color: var(--text-muted);">
+            <div style="text-align: center;">
+              <i class="ti ti-map" style="font-size: 32px; margin-bottom: 8px; display: block;"></i>
+              <span style="font-size: 13px;">Map of UK spots</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Marketplace Right Panel -->
+      <div class="right-panel-content" id="right-marketplace">
+        <div class="panel-section">
+          <div class="panel-title">Your Listings</div>
+          <div class="listing-card" style="margin-bottom: 12px;">
+            <div class="listing-card-thumb">✈️</div>
+            <div class="listing-card-name">A330-300</div>
+            <div class="listing-card-meta">
+              <span class="listing-card-price mono">750 coins</span>
+              <span class="listing-card-condition">Mint</span>
+            </div>
+          </div>
+          <div class="listing-card">
+            <div class="listing-card-thumb">✈️</div>
+            <div class="listing-card-name">747-400</div>
+            <div class="listing-card-meta">
+              <span class="listing-card-price mono">1,200 coins</span>
+              <span class="listing-card-condition">Near Mint</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-title">Incoming Trades</div>
+          <div class="trade-offer">
+            <div class="trade-offer-header">
+              <div class="trade-offer-user">
+                <div class="trade-offer-avatar">M</div>
+                <div>
+                  <div class="trade-offer-name">AviatorMike</div>
+                  <div class="trade-offer-time">3 hours ago</div>
+                </div>
+              </div>
+            </div>
+            <div class="trade-offer-swap">
+              <div class="trade-offer-card">
+                <div style="font-size: 24px;">✈️</div>
+                <div class="trade-offer-card-name">777-300ER</div>
+              </div>
+              <i class="ti ti-arrows-exchange trade-offer-arrow"></i>
+              <div class="trade-offer-card">
+                <div style="font-size: 24px;">✈️</div>
+                <div class="trade-offer-card-name">A350-900</div>
+              </div>
+            </div>
+            <div class="trade-offer-actions">
+              <button class="btn btn-success">Accept</button>
+              <button class="btn btn-secondary">Decline</button>
+            </div>
+          </div>
+
+          <div class="trade-offer">
+            <div class="trade-offer-header">
+              <div class="trade-offer-user">
+                <div class="trade-offer-avatar">S</div>
+                <div>
+                  <div class="trade-offer-name">SpotterSarah</div>
+                  <div class="trade-offer-time">Yesterday</div>
+                </div>
+              </div>
+            </div>
+            <div class="trade-offer-swap">
+              <div class="trade-offer-card">
+                <div style="font-size: 24px;">✈️</div>
+                <div class="trade-offer-card-name">Concorde</div>
+              </div>
+              <i class="ti ti-arrows-exchange trade-offer-arrow"></i>
+              <div class="trade-offer-card">
+                <div style="font-size: 24px;">✈️</div>
+                <div class="trade-offer-card-name">787-10</div>
+              </div>
+            </div>
+            <div class="trade-offer-actions">
+              <button class="btn btn-success">Accept</button>
+              <button class="btn btn-secondary">Decline</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-title">Recent Sales</div>
+          <div class="sales-ticker">
+            <div class="sale-item">
+              <i class="ti ti-circle-check"></i>
+              <span class="sale-card-name">A380-800</span>
+              <span class="sale-price mono">2,100</span>
+              <span class="sale-time">2m ago</span>
+            </div>
+            <div class="sale-item">
+              <i class="ti ti-circle-check"></i>
+              <span class="sale-card-name">737 MAX 8</span>
+              <span class="sale-price mono">450</span>
+              <span class="sale-time">8m ago</span>
+            </div>
+            <div class="sale-item">
+              <i class="ti ti-circle-check"></i>
+              <span class="sale-card-name">Concorde</span>
+              <span class="sale-price mono">4,500</span>
+              <span class="sale-time">15m ago</span>
+            </div>
+            <div class="sale-item">
+              <i class="ti ti-circle-check"></i>
+              <span class="sale-card-name">DC-10</span>
+              <span class="sale-price mono">1,800</span>
+              <span class="sale-time">23m ago</span>
+            </div>
+            <div class="sale-item">
+              <i class="ti ti-circle-check"></i>
+              <span class="sale-card-name">A320neo</span>
+              <span class="sale-price mono">320</span>
+              <span class="sale-time">31m ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Community Right Panel -->
+      <div class="right-panel-content" id="right-community">
+        <div class="panel-section">
+          <div class="panel-title">Your Profile</div>
+          <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+            <div class="user-avatar" style="width: 56px; height: 56px; font-size: 22px;">J</div>
+            <div>
+              <div style="font-size: 18px; font-weight: 600;">Jamie</div>
+              <div style="color: var(--text-muted); font-size: 13px;">Based at EGLL</div>
+            </div>
+          </div>
+          <div class="collection-stat">
+            <span class="collection-stat-label">Level</span>
+            <span class="collection-stat-value mono">14</span>
+          </div>
+          <div class="collection-stat">
+            <span class="collection-stat-label">Global Rank</span>
+            <span class="collection-stat-value mono">#312</span>
+          </div>
+          <div class="collection-stat">
+            <span class="collection-stat-label">Cards</span>
+            <span class="collection-stat-value mono">147</span>
+          </div>
+          <div class="collection-stat">
+            <span class="collection-stat-label">Spots</span>
+            <span class="collection-stat-value mono">38</span>
+          </div>
+        </div>
+
+        <div class="panel-section">
+          <div class="panel-title">Your Badges</div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <div style="background: var(--bg-tertiary); padding: 8px 12px; border-radius: 8px; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+              <i class="ti ti-sunrise" style="color: var(--accent-orange);"></i> Early Bird
+            </div>
+            <div style="background: var(--bg-tertiary); padding: 8px 12px; border-radius: 8px; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+              <i class="ti ti-eye" style="color: var(--accent-blue);"></i> Sharp Eye
+            </div>
+            <div style="background: var(--bg-tertiary); padding: 8px 12px; border-radius: 8px; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+              <i class="ti ti-users" style="color: var(--accent-green);"></i> Team Player
+            </div>
+            <div style="background: var(--bg-tertiary); padding: 8px 12px; border-radius: 8px; font-size: 12px; display: flex; align-items: center; gap: 6px;">
+              <i class="ti ti-flame" style="color: var(--accent-red);"></i> On Fire
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script>
+    // Card Data
+    const allCards = [
+      { name: '787-9 Dreamliner', type: 'Widebody', manufacturer: 'Boeing', rarity: 'limited', owned: true },
+      { name: '747-400', type: 'Widebody', manufacturer: 'Boeing', rarity: 'rare', owned: true },
+      { name: '777-300ER', type: 'Widebody', manufacturer: 'Boeing', rarity: 'rare', owned: true },
+      { name: '787-10 Dreamliner', type: 'Widebody', manufacturer: 'Boeing', rarity: 'ultra-rare', owned: true },
+      { name: '737-800', type: 'Narrowbody', manufacturer: 'Boeing', rarity: 'common', owned: true },
+      { name: 'A380-800', type: 'Widebody', manufacturer: 'Airbus', rarity: 'ultra-rare', owned: true },
+      { name: 'A350-900', type: 'Widebody', manufacturer: 'Airbus', rarity: 'rare', owned: true },
+      { name: 'A330-300', type: 'Widebody', manufacturer: 'Airbus', rarity: 'uncommon', owned: true },
+      { name: 'A320neo', type: 'Narrowbody', manufacturer: 'Airbus', rarity: 'common', owned: true },
+      { name: 'A321neo', type: 'Narrowbody', manufacturer: 'Airbus', rarity: 'uncommon', owned: true },
+      { name: 'Concorde', type: 'Historical', manufacturer: 'Aérospatiale/BAC', rarity: 'ultra-rare', owned: true },
+      { name: 'DC-10', type: 'Historical', manufacturer: 'McDonnell Douglas', rarity: 'rare', owned: true },
+      { name: 'Boeing 707', type: 'Historical', manufacturer: 'Boeing', rarity: 'uncommon', owned: true },
+      { name: 'Lockheed L-1011', type: 'Historical', manufacturer: 'Lockheed', rarity: 'rare', owned: false },
+      { name: 'Vickers VC10', type: 'Historical', manufacturer: 'Vickers', rarity: 'ultra-rare', owned: false },
+      { name: '737 MAX 8', type: 'Narrowbody', manufacturer: 'Boeing', rarity: 'common', owned: true },
+      { name: '737 MAX 9', type: 'Narrowbody', manufacturer: 'Boeing', rarity: 'uncommon', owned: true },
+      { name: '767-300ER', type: 'Widebody', manufacturer: 'Boeing', rarity: 'uncommon', owned: true },
+      { name: 'A319', type: 'Narrowbody', manufacturer: 'Airbus', rarity: 'common', owned: true },
+      { name: 'A340-600', type: 'Widebody', manufacturer: 'Airbus', rarity: 'rare', owned: false },
+      { name: '757-200', type: 'Narrowbody', manufacturer: 'Boeing', rarity: 'uncommon', owned: true },
+      { name: 'E190', type: 'Regional', manufacturer: 'Embraer', rarity: 'common', owned: true },
+      { name: 'CRJ-900', type: 'Regional', manufacturer: 'Bombardier', rarity: 'common', owned: false },
+      { name: 'ATR 72', type: 'Regional', manufacturer: 'ATR', rarity: 'common', owned: true },
+    ];
+
+    const marketplaceListings = [
+      { name: 'A380-800', rarity: 'ultra-rare', seller: 'SkyKing', condition: 'Mint', price: 2500 },
+      { name: '747-400', rarity: 'rare', seller: 'PlaneHunter', condition: 'Near Mint', price: 1200 },
+      { name: 'Concorde', rarity: 'ultra-rare', seller: 'AeroCollector', condition: 'Mint', price: 4800 },
+      { name: '777-300ER', rarity: 'rare', seller: 'WingSpan', condition: 'Good', price: 850 },
+      { name: 'A350-900', rarity: 'rare', seller: 'JetSetter', condition: 'Mint', price: 1100 },
+      { name: '787-10', rarity: 'ultra-rare', seller: 'CloudNine', condition: 'Near Mint', price: 1800 },
+      { name: 'DC-10', rarity: 'rare', seller: 'RetroAviation', condition: 'Good', price: 950 },
+      { name: 'A320neo', rarity: 'common', seller: 'NarrowBody99', condition: 'Mint', price: 280 },
+      { name: '737-800', rarity: 'common', seller: 'SpotterSam', condition: 'Near Mint', price: 220 },
+      { name: 'Boeing 707', rarity: 'uncommon', seller: 'VintageWings', condition: 'Good', price: 650 },
+      { name: 'A330-300', rarity: 'uncommon', seller: 'AirBusAndy', condition: 'Mint', price: 580 },
+      { name: '757-200', rarity: 'uncommon', seller: 'DeltaFan', condition: 'Near Mint', price: 420 },
+    ];
+
+    // Create card element
+    function createCard(card, isLarge = false) {
+      const div = document.createElement('div');
+      div.className = `card-item ${card.rarity} ${!card.owned ? 'locked' : ''} ${isLarge ? 'large' : ''}`;
+      
+      const rarityLabels = {
+        'common': 'COMMON',
+        'uncommon': 'UNCOMMON',
+        'rare': 'RARE',
+        'ultra-rare': 'ULTRA RARE',
+        'limited': 'LIMITED'
+      };
+
+      div.innerHTML = `
+        <div class="card-inner">
+          <div class="card-shimmer"></div>
+          <span class="card-rarity-badge ${card.rarity}">
+            ${card.rarity === 'limited' ? '<i class="ti ti-crown" style="font-size: 10px;"></i> ' : ''}${rarityLabels[card.rarity]}
+          </span>
+          <div class="card-aircraft-icon">✈️</div>
+          <div class="card-bottom">
+            <div class="card-type mono">${card.type.toUpperCase()} • ${card.manufacturer.toUpperCase()}</div>
+            <div class="card-name">${card.name}</div>
+          </div>
+        </div>
+        ${!card.owned ? '<div class="card-lock-overlay"><i class="ti ti-lock"></i></div>' : ''}
+      `;
+
+      // Add tilt effect for rare+ cards
+      if (card.owned && ['rare', 'ultra-rare', 'limited'].includes(card.rarity)) {
+        div.addEventListener('mousemove', (e) => {
+          const rect = div.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = (y - centerY) / 10;
+          const rotateY = (centerX - x) / 10;
+          div.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        });
+
+        div.addEventListener('mouseleave', () => {
+          div.style.transform = '';
+        });
+      }
+
+      // Click to view detail
+      if (card.owned) {
+        div.addEventListener('click', () => navigateTo('card-detail'));
+      }
+
+      return div;
+    }
+
+    // Create marketplace listing
+    function createListing(listing) {
+      const div = document.createElement('div');
+      div.className = 'listing-card';
+      
+      const rarityLabels = {
+        'common': 'COMMON',
+        'uncommon': 'UNCOMMON',
+        'rare': 'RARE',
+        'ultra-rare': 'ULTRA RARE',
+        'limited': 'LIMITED'
+      };
+
+      div.innerHTML = `
+        <div class="listing-card-thumb" style="position: relative;">
+          ✈️
+          <span class="card-rarity-badge ${listing.rarity}" style="position: absolute; top: 8px; right: 8px;">${rarityLabels[listing.rarity]}</span>
+        </div>
+        <div class="listing-card-name">${listing.name}</div>
+        <div class="listing-card-seller">by ${listing.seller}</div>
+        <div class="listing-card-meta">
+          <span class="listing-card-price mono">${listing.price.toLocaleString()} coins</span>
+          <span class="listing-card-condition">${listing.condition}</span>
+        </div>
+        <div class="listing-card-actions">
+          <button class="btn btn-primary">Buy</button>
+          <button class="btn btn-secondary">Offer</button>
+        </div>
+      `;
+
+      return div;
+    }
+
+    // Render cards
+    function renderRecentCards() {
+      const container = document.getElementById('recent-cards');
+      container.innerHTML = '';
+      const recentCards = allCards.filter(c => c.owned).slice(0, 5);
+      recentCards.forEach(card => {
+        container.appendChild(createCard(card));
+      });
+    }
+
+    function renderBinderCards() {
+      const container = document.getElementById('binder-cards');
+      container.innerHTML = '';
+      allCards.forEach(card => {
+        container.appendChild(createCard(card));
+      });
+    }
+
+    function renderMarketplace() {
+      const container = document.getElementById('marketplace-listings');
+      container.innerHTML = '';
+      marketplaceListings.forEach(listing => {
+        container.appendChild(createListing(listing));
+      });
+    }
+
+    // Navigation
+    function navigateTo(page) {
+      // Update pages
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const targetPage = document.getElementById(`page-${page}`);
+      if (targetPage) targetPage.classList.add('active');
+
+      // Update navbar
+      document.querySelectorAll('.navbar-nav a').forEach(a => {
+        a.classList.toggle('active', a.dataset.page === page);
+      });
+
+      // Update sidebar
+      document.querySelectorAll('.sidebar-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.page === page);
+      });
+
+      // Update right panel
+      const panelMap = {
+        'dashboard': 'right-dashboard',
+        'binder': 'right-binder',
+        'limited': 'right-binder',
+        'spot': 'right-spot',
+        'spotlog': 'right-spot',
+        'marketplace': 'right-marketplace',
+        'trades': 'right-marketplace',
+        'community': 'right-community',
+        'card-detail': 'right-binder',
+        'wanted': 'right-binder',
+        'group': 'right-community',
+        'scan': 'right-binder'
+      };
+
+      document.querySelectorAll('.right-panel-content').forEach(p => p.classList.remove('active'));
+      const rightPanel = document.getElementById(panelMap[page] || 'right-dashboard');
+      if (rightPanel) rightPanel.classList.add('active');
+    }
+
+    // Toast system
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <i class="ti ti-${type === 'success' ? 'circle-check' : 'info-circle'}"></i>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'toastOut 0.3s ease forwards';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Community tabs
+    function initCommunityTabs() {
+      document.querySelectorAll('.community-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.community-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+          document.getElementById(`tab-${tab.dataset.tab}`).style.display = 'block';
+        });
+      });
+    }
+
+    // Card flip
+    function initCardFlip() {
+      const flipBtn = document.getElementById('flip-btn');
+      const card = document.getElementById('detail-card');
+      
+      flipBtn.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
+    }
+
+    // Event listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      renderRecentCards();
+      renderBinderCards();
+      renderMarketplace();
+      initCommunityTabs();
+      initCardFlip();
+
+      // Nav clicks
+      document.querySelectorAll('[data-page]').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          navigateTo(el.dataset.page);
+        });
+      });
+
+      // Verify button
+      document.getElementById('verify-btn').addEventListener('click', () => {
+        showToast('Aircraft verified successfully!', 'success');
+      });
+
+      // Add to binder button
+      document.getElementById('add-binder-btn').addEventListener('click', () => {
+        showToast('Limited Edition added to your binder!', 'success');
+      });
+
+      // View toggle
+      document.querySelectorAll('.view-toggle button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
