@@ -32,16 +32,21 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./av-collect-ui        
 
       - name: Build Next.js site
         run: npm run build
+        working-directory: ./av-collect-ui        
 
       - name: Upload static files
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: ./av-collect-ui/out              
 
   deploy:
+    permissions:                                  
+      pages: write
+      id-token: write
     environment:
       name: github-pages
 
